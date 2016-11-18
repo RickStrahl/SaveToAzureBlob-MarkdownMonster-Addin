@@ -1,6 +1,6 @@
 ﻿# Save To Azure Blob Storage Markdown Monster Add-in
 
-This project provides a Markdown Monster Add-in for saving images opened from a file or from the clipboard and posting them to a Blob in Azure Blob Storage. 
+This project provides a [Markdown Monster](https://markdownmonster.west-wind.com) Add-in for saving images opened from a file or from the clipboard and posting them to a Blob in Azure Blob Storage. 
 
 Images are previewed and can then be pushed to Azure Storage with the resulting URL automatically getting embedded into the open Markdown document.
 
