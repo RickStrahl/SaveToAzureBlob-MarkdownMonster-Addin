@@ -35,7 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MarkdownMonster">
+    <Reference Include="MarkdownMonster, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Program Files\Markdown Monster\MarkdownMonster.exe</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -59,12 +60,6 @@
   <ItemGroup>
     <Compile Include="AzureBlobOperationsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SaveToAzureBlobStorage\SaveToAzureBlobStorage.csproj">
-      <Project>{439A6DC3-2019-488E-9222-7D87051A73CE}</Project>
-      <Name>SaveToAzureBlobStorage</Name>
-    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

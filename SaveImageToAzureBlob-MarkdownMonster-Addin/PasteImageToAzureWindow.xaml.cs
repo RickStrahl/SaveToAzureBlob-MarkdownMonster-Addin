@@ -104,6 +104,8 @@ namespace SaveToAzureBlobStorage
             BlobFileName = Addin.GetBlobFilename();
 
             IsBitmap = true;
+
+            ShowStatus("Image pasted from Clipboard...", 8000);
         }
 
         #region Event Handlers        
