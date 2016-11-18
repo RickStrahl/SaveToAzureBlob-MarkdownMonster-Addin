@@ -4,15 +4,18 @@ This project provides a [Markdown Monster](https://markdownmonster.west-wind.com
 
 Images are previewed and can then be pushed to Azure Storage with the resulting URL automatically getting embedded into the open Markdown document.
 
-
-
-![](SaveToAzureMarkdownMonsterAddin.gif)
+![](SaveImageToAzureBlobAddin.png)
 
 > #### Early pre-release
 > This version is a pre-release version so installation and configuration is manual for now. Please see instructions below.
 
+
 ### How it works
 The add-in allows you to select images off the file system or from the clipboard, which can then be posted to an Azure Blob container. The add-in  uploads the file to blob storage and then captures the new blob's URL which is then embedded into the document.
+
+Here's a animated gif that shows the workflow:
+
+![](SaveToAzureMarkdownMonsterAddin.gif)
 
 ### Images from Clipboard Optimizations
 If an image exists on the clipboard when the add-in is started, it's immediately loaded. 
