@@ -98,7 +98,6 @@ namespace SaveToAzureBlobStorage
                 Model.Window.PreviewMarkdownAsync(keepScrollPosition: true);
             }
         }
-
     
 
         public override void OnExecuteConfiguration(object sender)

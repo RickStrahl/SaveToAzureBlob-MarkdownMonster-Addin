@@ -75,7 +75,20 @@ namespace SaveToAzureBlobStorage
             DataContext = this;
             mmApp.SetThemeWindowOverride(this);
 
-            Loaded += PasteImageToAzure_Loaded;            
+            Loaded += PasteImageToAzure_Loaded;
+            SizeChanged += PasteImageToAzureWindow_SizeChanged;        
+        }
+
+        private void PasteImageToAzureWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var image = ImagePreview.Source as BitmapSource;
+            if (image == null)
+                return;
+
+            if (image.Width < Width - 20 && image.Height < PageGrid.RowDefinitions[2].ActualHeight)
+                ImagePreview.Stretch = Stretch.None;
+            else
+                ImagePreview.Stretch = Stretch.Uniform;
         }
 
         private void PasteImageToAzure_Loaded(object sender, RoutedEventArgs e)
@@ -93,15 +106,11 @@ namespace SaveToAzureBlobStorage
                 ShowStatus("Clipboard doesn't contain an image...", 6000);
                 return;
             }
-
-            var image = Clipboard.GetImage();
-            if (image.Width < Width - 20 && image.Height < PageGrid.RowDefinitions[1].ActualHeight)
-                ImagePreview.Stretch = Stretch.None;
-            else
-                ImagePreview.Stretch = Stretch.Uniform;
-
-            ImagePreview.Source = image;
+            
+            
+            ImagePreview.Source = Clipboard.GetImage();
             BlobFileName = Addin.GetBlobFilename();
+            PasteImageToAzureWindow_SizeChanged(this, null);
 
             IsBitmap = true;
 
@@ -143,6 +152,7 @@ namespace SaveToAzureBlobStorage
             ImageFilename = fd.FileName;
             Uri fileUri = new Uri("file:///" + fd.FileName.Replace("\\", "/"));
             ImagePreview.Source = new BitmapImage(fileUri);
+            PasteImageToAzureWindow_SizeChanged(this, null);
 
             BlobFileName = Addin.GetBlobFilename(ImageFilename);
 
