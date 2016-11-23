@@ -27,9 +27,9 @@ Otherwise you can use the **Paste Image** button or **Control-V** to paste image
 ### Installation
 Currently add-ins have to be manually installed into Markdown Monster - we'll have an automated registry soon, but for now...
 
-Download the  [SaveImageToAzureBlob-MarkdownMonster-Addin.zip](https://github.com/RickStrahl/SaveToAzureBlob-MarkdownMonster-Addin/raw/master/Build/SaveImageToAzureBlob-MarkdownMonster-Addin.zip) in the `Build` folder and copy it to:
-
-**c:\Program Files\Markdown Monster\Addins**
+ 1. Download the  [SaveImageToAzureBlob-MarkdownMonster-Addin.zip](https://github.com/RickStrahl/SaveToAzureBlob-MarkdownMonster-Addin/raw/master/Build/SaveImageToAzureBlob-MarkdownMonster-Addin.zip) from the `Build` folder
+ 1. Right-click the ZIP file, to to properties and Unblock
+ 1. Unzip and copy all of the contents to **c:\Program Files\Markdown Monster\Addins**, but do not overwrite files if prompted
 
 ### Configuration
 In order to post to Azure you'll need to have a Blob Container pre-configured on your Azure account. Once that's in place for now you need to manually provide the configuration in the following location:
