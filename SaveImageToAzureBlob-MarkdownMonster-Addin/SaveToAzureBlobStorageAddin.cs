@@ -199,7 +199,7 @@ namespace SaveToAzureBlobStorage
         }
 
 
-        public string SaveBitmapSourceToAzureBlobStorage(BitmapSource image,  string connectionStringName, string blobName = null)
+        public string SaveBitmapSourceToAzureBlobStorage(BitmapSource image,  string connectionStringName, string blobName)
         {
 
             var blobConnection = AzureConfiguration.Current.ConnectionStrings
@@ -226,8 +226,11 @@ namespace SaveToAzureBlobStorage
 
                 container.SetPermissions(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
 
+                // strip leading slashes - Azure will provide the trailing dash
+                // on the domain.
+                if (blobName.StartsWith("/") && blobName.Length > 1)
+                    blobName = blobName.Substring(1);
 
-                
                 var extension = Path.GetExtension(blobName).Replace(".", "").ToLower();
                 BitmapEncoder encoder;
 
