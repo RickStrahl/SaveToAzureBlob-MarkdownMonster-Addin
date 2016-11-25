@@ -81,14 +81,19 @@ namespace SaveToAzureBlobStorage
 
         private void PasteImageToAzureWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+
+            //TextFilename.Width = Width - 440;
+
             var image = ImagePreview.Source as BitmapSource;
             if (image == null)
                 return;
 
-            if (image.Width < Width - 20 && image.Height < PageGrid.RowDefinitions[2].ActualHeight)
+            if (image.Width < Width - 20 && image.Height < PageGrid.RowDefinitions[1].ActualHeight)
                 ImagePreview.Stretch = Stretch.None;
             else
                 ImagePreview.Stretch = Stretch.Uniform;
+
+            
         }
 
         private void PasteImageToAzure_Loaded(object sender, RoutedEventArgs e)

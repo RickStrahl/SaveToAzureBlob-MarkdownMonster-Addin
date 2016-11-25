@@ -15,7 +15,7 @@
         Activated="PasteImageToAzureForm_Activated"
         WindowStartupLocation="CenterOwner"         
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="920" Height="790" >
+        Width="800" Height="790" MinWidth="800" MinHeight="500" >
 
     <Grid Name="PageGrid">
         <Grid.RowDefinitions>
@@ -25,81 +25,81 @@
         </Grid.RowDefinitions>
 
         <ToolBarPanel Grid.Row="0">
-            <StackPanel >
-                <ToolBar FontWeight="Normal" FontSize="14" Padding="0,8,0,5">
+            <ToolBar FontWeight="Normal" FontSize="14" Padding="0,8,0,5">
 
-                    <Button Name="ToolButtonSaveImage" Click="ToolButtonSaveToAzure_Click" 
+                <Button Name="ToolButtonSaveImage" Click="ToolButtonSaveToAzure_Click" 
                             IsEnabled="{Binding IsBitmap}" 
                             IsDefault="True" >
-                        <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="CloudUpload"  Name="FaSaveImage"                                          
+                    <StackPanel Orientation="Horizontal">
+                        <fa:FontAwesome Icon="CloudUpload"  Name="FaSaveImage"                                          
                                             FontSize="15"                                                                                        
                                             FontWeight="Normal" FontFamily="FontAwesome" 
                                             Margin="5,2,5,0">
-                                
-                            </fa:FontAwesome>
 
-                            <TextBlock>Save</TextBlock>
-                        </StackPanel>
-                    </Button>
+                        </fa:FontAwesome>
 
-                    <Button Name="ToolButtonCancel" Click="ToolButtonCancel_Click" IsCancel="True">
-                        <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="Remove"     
+                        <TextBlock>Save</TextBlock>
+                    </StackPanel>
+                </Button>
+
+                <Button Name="ToolButtonCancel" Click="ToolButtonCancel_Click" IsCancel="True">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:FontAwesome Icon="Remove"     
                                             Foreground="Red"
                                             FontSize="15"
                                             FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
-                            <TextBlock>Cancel</TextBlock>
-                        </StackPanel>
-                    </Button>
+                        <TextBlock>Cancel</TextBlock>
+                    </StackPanel>
+                </Button>
 
-                    <Separator/>
+                <Separator/>
 
 
-                    <Button Name="ToolButtonOpenImage" Click="ToolButtonOpenImage_Click" >
-                        <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="Image"     
+                <Button Name="ToolButtonOpenImage" Click="ToolButtonOpenImage_Click" >
+                    <StackPanel Orientation="Horizontal">
+                        <fa:FontAwesome Icon="Image"     
                                            
                                             FontSize="15"
                                             FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
-                            <TextBlock>Open Image File</TextBlock>
-                        </StackPanel>
-                    </Button>
+                        <TextBlock>Open Image File</TextBlock>
+                    </StackPanel>
+                </Button>
 
 
 
-                    <Button Name="ToolButtonPasteImage" Click="ToolButtonPasteImage_Click" >
-                        <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="Paste"                                                 
+                <Button Name="ToolButtonPasteImage" Click="ToolButtonPasteImage_Click" >
+                    <StackPanel Orientation="Horizontal">
+                        <fa:FontAwesome Icon="Paste"                                                 
                                             FontSize="15"
                                             FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
-                            <TextBlock>Paste Image</TextBlock>
-                        </StackPanel>
-                    </Button>
+                        <TextBlock>Paste Image</TextBlock>
+                    </StackPanel>
+                </Button>
 
-                    <Button Name="ToolButtonClearImage" Click="ToolButtonClearImage_Click" >
-                        <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="TrashOutline"                                                 
+                <Button Name="ToolButtonClearImage" Click="ToolButtonClearImage_Click" >
+                    <StackPanel Orientation="Horizontal">
+                        <fa:FontAwesome Icon="TrashOutline"                                                 
                                             FontSize="15"
                                             FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
-                            <TextBlock>Clear Image</TextBlock>
-                        </StackPanel>
-                    </Button>
+                        <TextBlock>Clear Image</TextBlock>
+                    </StackPanel>
+                </Button>
 
-                </ToolBar>
-                <ToolBar FontWeight="Normal" FontSize="14" Padding="0,8,0,5">
-                    <Label>Connection:</Label>
-                    <ComboBox x:Name="ComboConnection"                            
+            </ToolBar>
+            <ToolBar FontWeight="Normal" FontSize="14" Padding="0,8,0,5"  ClipToBounds="True">
+                <Label>Connection:</Label>
+                <ComboBox x:Name="ComboConnection"                           
                            SelectedValue="{Binding ActiveConnection}"
                            IsSynchronizedWithCurrentItem="True" 
                            ItemsSource="{Binding Configuration.ConnectionStrings}"  
                            DisplayMemberPath="Name"  Width="220"                          
                            />
 
-                    <Label>Blob Name:</Label>
-                    <TextBox Name="TextFilename" Text="{Binding BlobFileName}" Width="200"></TextBox>
-                </ToolBar>
-            </StackPanel>
+                <Label Margin="8,0,0,0">Blob Name:</Label>
+                <TextBox Grid.Column ="1" Name="TextFilename" Text="{Binding BlobFileName}" Width="375" />
+
+            </ToolBar>
+
         </ToolBarPanel>
 
         <Image  Grid.Row="1" Name="ImagePreview" Margin="10" />
@@ -122,7 +122,7 @@
                 <fa:FontAwesome Name="StatusIcon" Icon="Circle" Foreground="Green"/>
             </StatusBarItem>
             <StatusBarItem Grid.Column="1">
-                <TextBlock Width="400" Name="StatusText" x:FieldModifier="public" HorizontalAlignment="Left">Ready</TextBlock>
+                <TextBlock  Name="StatusText" x:FieldModifier="public" HorizontalAlignment="Left">Ready</TextBlock>
             </StatusBarItem>
         </StatusBar>
 
