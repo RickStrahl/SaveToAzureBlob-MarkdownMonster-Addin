@@ -1,7 +1,9 @@
 {
 	"name": "Save Image to Azure Blob",
 	"download": "SaveImageToAzureBlob-MarkdownMonster-Addin.zip",
+	"description": "Allows uploading of images from disk or the clipboard to Azure Blob Storage, and embedding the resulting URL as an image link into the current document."
 	"icon": "AddIn.png",
-	"version": "1.0",
-	"updated": "2016-11-18T01:00:00Z"
+	"version": "0.05",
+	"author": "Rick Strahl - West Wind Technologies",	
+	"updated": "2016-12-5T01:00:00Z"
 }
