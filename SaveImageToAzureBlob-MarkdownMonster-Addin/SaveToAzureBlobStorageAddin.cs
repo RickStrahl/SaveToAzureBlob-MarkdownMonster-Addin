@@ -43,7 +43,7 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Westwind.Utilities;
 
-namespace SaveToAzureBlobStorage
+namespace SaveImageToAzureBlobStorageAddin
 {
 
 

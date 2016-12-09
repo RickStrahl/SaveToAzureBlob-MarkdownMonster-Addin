@@ -7,8 +7,8 @@
     <ProjectGuid>{439A6DC3-2019-488E-9222-7D87051A73CE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SaveToAzureBlobStorage</RootNamespace>
-    <AssemblyName>SaveToAzureBlobStorage</AssemblyName>
+    <RootNamespace>SaveImageToAzureBlobStorageAddin</RootNamespace>
+    <AssemblyName>SaveImageToAzureBlobStorageAddin</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\Program Files\Markdown Monster\Addins\</OutputPath>
+    <OutputPath>..\..\..\..\Program Files\Markdown Monster\Addins\SaveImageToAzuerBlobStorageAddin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>

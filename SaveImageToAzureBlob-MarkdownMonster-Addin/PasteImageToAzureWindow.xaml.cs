@@ -13,7 +13,7 @@ using MahApps.Metro.Controls;
 using MarkdownMonster;
 using Microsoft.Win32;
 
-namespace SaveToAzureBlobStorage
+namespace SaveImageToAzureBlobStorageAddin
 {
     /// <summary>
     /// Interaction logic for PasteHref.xaml

@@ -7,10 +7,10 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using MarkdownMonster;
-using SaveToAzureBlobStorage.Annotations;
+using SaveImageToAzureBlobStorageAddin.Annotations;
 using Westwind.Utilities.Configuration;
 
-namespace SaveToAzureBlobStorage
+namespace SaveImageToAzureBlobStorageAddin
 {
     public class AzureConfiguration : AppConfiguration, INotifyPropertyChanged  
     {
