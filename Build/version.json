@@ -1,5 +1,5 @@
 {
-	"id": "SaveImageToAzureBlob-MarkdownMonster-Addin",
+	"id": "SaveImageToAzureBlob",
 	"name": "Save Image to Azure Blob",
 	"summary": "Upload images from disk or the clipboard to Azure Blob Storage, and embed the resulting URL as an image link into the current document.",
 	"description": null,
