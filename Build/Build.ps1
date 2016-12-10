@@ -8,7 +8,7 @@ md Distribution
 
 
 "Copying files..."
-copy ..\PasteCodeAsGitAddin\bin\Release\*.dll .\Distribution
+copy ..\SaveImageToAzureBlob-MarkdownMonster-Addin\bin\Release\*.dll .\Distribution
 copy version.json .\Distribution
 del .\Distribution\NewtonSoft.Json.dll
 
