@@ -1,0 +1,58 @@
+﻿<controls:MetroWindow x:Name="PasteImageToAzureConfigurationForm" x:Class="SaveImageToAzureBlobStorageAddin.PasteImageToAzureConfigurationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        mc:Ignorable="d"
+        Icon="Assets/MarkdownMonster_Icon_256.png"                     
+        Title="Save Image to Azure Blob Storage Configuration"
+        TitleCharacterCasing="Normal"
+        ResizeMode="CanResizeWithGrip"
+        WindowStyle="SingleBorderWindow"       
+        WindowStartupLocation="CenterOwner"         
+        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
+        Width="800" Height="463.564" MinWidth="800" MinHeight="500" >
+
+    <Grid Name="PageGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="20,20,20,20" >
+            <ListBox x:Name="ListConnections" Grid.Row="0" 
+                      DisplayMemberPath="Name" Height="100" BorderBrush="WhiteSmoke" BorderThickness="1"                         
+                      SelectedItem="{Binding ActiveConnection}"
+                      IsSynchronizedWithCurrentItem="True"                    
+                      ItemsSource="{Binding Connections}" />
+
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                <Line></Line>
+                <Button x:Name="ButtonNewConnection" Width="80" Click="ButtonNewConnection_Click" HorizontalAlignment="Left">New</Button>
+                <Button x:Name="ButtonDeleteConnection" Width="80" Click="ButtonDeleteConnection_Click" HorizontalAlignment="Left" Margin="10,0,0,0">Delete</Button>
+            </StackPanel>
+        </StackPanel>
+
+
+        <StackPanel Grid.Row="1" Margin="20,6,20,20">
+            <Label Margin="0,10,0,0" FontSize="15">Name</Label>
+            <TextBox x:Name="TextName" Text="{Binding Path=ActiveConnection.Name}" FontSize="15"></TextBox>
+
+            <Label Margin="0,10,0,0"  FontSize="15">Connection String (from Azure portal)</Label>
+            <TextBox x:Name="TextConnectionString" Text="&lt;hidden for security - type to change&gt;"
+                         LostFocus="TextConnectionString_LostFocus"
+                     GotFocus="TextConnectionString_GotFocus" FontSize="15"/>
+
+            <Label Margin="0,10,0,0" FontSize="15">Blob Container Name</Label>
+            <TextBox x:Name="TextContainerName" Text="{Binding Path=ActiveConnection.ContainerName}" FontSize="15"/>
+
+        </StackPanel>
+        
+        
+        
+    </Grid>
+
+</controls:MetroWindow>

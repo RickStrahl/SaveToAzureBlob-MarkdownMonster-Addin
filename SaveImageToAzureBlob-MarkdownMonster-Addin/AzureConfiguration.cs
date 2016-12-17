@@ -58,23 +58,4 @@ namespace SaveImageToAzureBlobStorageAddin
         }
         #endregion
     }
-
-    public class AzureBlobConnection
-    {
-        /// <summary>
-        ///  The unique name for this connection - displayed in UI
-        /// </summary>
-        public string Name { get; set; }
-
-
-        /// <summary>
-        /// The Azure connection string to connect to this blob storage account
-        /// </summary>
-        public string ConnectionString { get; set; }
-
-        /// <summary>
-        /// Name of the container to connect to
-        /// </summary>
-        public string ContainerName { get; set; }
-    }
 }

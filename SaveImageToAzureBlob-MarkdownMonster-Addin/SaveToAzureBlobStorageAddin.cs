@@ -77,7 +77,7 @@ namespace SaveImageToAzureBlobStorageAddin
             };
 
             // if you don't want to display main or config menu items clear handler
-            menuItem.ExecuteConfiguration = null;
+            //menuItem.ExecuteConfiguration = null;
 
             // Must add the menu to the collection to display menu and toolbar items            
             MenuItems.Add(menuItem);            
@@ -102,8 +102,9 @@ namespace SaveImageToAzureBlobStorageAddin
 
         public override void OnExecuteConfiguration(object sender)
         {
-            MessageBox.Show("Configuration for our sample Addin", "Markdown Addin Sample",
-                MessageBoxButton.OK, MessageBoxImage.Information);
+            var form = new PasteImageToAzureConfigurationWindow(this);
+            form.Owner = Model.Window;
+            form.Show();
         }
 
         public override bool OnCanExecute(object sender)
@@ -133,8 +134,8 @@ namespace SaveImageToAzureBlobStorageAddin
             }
 
             try
-            {
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(blobConnection.ConnectionString);
+            {                
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(blobConnection.DecryptConnectionString());
 
                 // Create the blob client.
                 CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
@@ -212,8 +213,9 @@ namespace SaveImageToAzureBlobStorageAddin
             }
 
             try
-            {
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(blobConnection.ConnectionString);
+            {             
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(blobConnection.DecryptConnectionString());
+                
 
                 // Create the blob client.
                 CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
