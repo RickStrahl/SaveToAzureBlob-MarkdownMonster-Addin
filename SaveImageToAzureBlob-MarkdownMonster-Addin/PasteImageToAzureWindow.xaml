@@ -6,7 +6,7 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Icon="Assets/MarkdownMonster_Icon_256.png"                     
+        Icon="Assets/SaveImageToAzureBlobAddin.png"                     
         Title="Save Image to Azure Blob Storage"
         TitleCharacterCasing="Normal"
         ResizeMode="CanResizeWithGrip"
@@ -15,7 +15,7 @@
         Activated="PasteImageToAzureForm_Activated"
         WindowStartupLocation="CenterOwner"         
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="800" Height="790" MinWidth="800" MinHeight="500" >
+        Width="830" Height="790" MinWidth="830" MinHeight="500" >
 
     <Grid Name="PageGrid">
         <Grid.RowDefinitions>
@@ -94,6 +94,12 @@
                            ItemsSource="{Binding Configuration.ConnectionStrings}"  
                            DisplayMemberPath="Name"  Width="220"                          
                            />
+                <Button Name="ToolButtonConfiguration" Click="ToolButtonConfiguration_Click" ToolTip="Configure connections">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:FontAwesome Icon="Cog"  Margin="5,2,5,0"
+                                        FontSize="15" FontWeight="Normal" FontFamily="FontAwesome"  />
+                   </StackPanel>
+                </Button>
 
                 <Label Margin="8,0,0,0">Blob Name:</Label>
                 <TextBox Grid.Column ="1" Name="TextFilename" Text="{Binding BlobFileName}" Width="375" />

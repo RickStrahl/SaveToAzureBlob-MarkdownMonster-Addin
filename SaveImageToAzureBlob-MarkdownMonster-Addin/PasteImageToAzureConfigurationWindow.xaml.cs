@@ -53,6 +53,8 @@ namespace SaveImageToAzureBlobStorageAddin
         {
             InitializeComponent();
 
+            mmApp.SetThemeWindowOverride(this);
+
             Loaded += PasteImageToAzureConfigurationWindow_Loaded;
             Unloaded += PasteImageToAzureConfigurationWindow_Unloaded;
         }

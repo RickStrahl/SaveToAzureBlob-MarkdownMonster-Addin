@@ -261,5 +261,13 @@ namespace SaveImageToAzureBlobStorageAddin
         }
 
         #endregion
+
+
+        private void ToolButtonConfiguration_Click(object sender, RoutedEventArgs e)
+        {
+            var form = new PasteImageToAzureConfigurationWindow(Addin);
+            form.Owner = this;
+            form.Show();
+        }
     }
 }
