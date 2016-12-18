@@ -1,4 +1,7 @@
-﻿using MarkdownMonster;
+﻿using System;
+using System.Security.Cryptography;
+using System.Text;
+using MarkdownMonster;
 using Westwind.Utilities;
 
 namespace SaveImageToAzureBlobStorageAddin
@@ -22,7 +25,11 @@ namespace SaveImageToAzureBlobStorageAddin
         /// </summary>
         public string ContainerName { get; set; }
 
-        const string cnstr = "612dklj33as334r*44;dZpKl+y";
+        private readonly byte[] cnstr = new byte[] {45, 66, 222, 12, 87, 88, 32, 97, 113, 179};
+        
+        public AzureBlobConnection()
+        {            
+        }
 
         public string EncryptConnectionString(bool force = false)
         {
@@ -33,7 +40,11 @@ namespace SaveImageToAzureBlobStorageAddin
             if (!force && ConnectionString.EndsWith("~~"))
                 return ConnectionString;
 
-            ConnectionString = Encryption.EncryptString(ConnectionString,cnstr) + "~~";
+            var encryptBytes = ProtectedData.Protect(Encoding.UTF8.GetBytes(ConnectionString),
+                                                     cnstr, DataProtectionScope.LocalMachine);
+            ConnectionString = Convert.ToBase64String(encryptBytes) + "~~";
+                        
+            //Encryption.EncryptString(ConnectionString,cnstr) + "~~";
             return ConnectionString;
         }
 
@@ -47,7 +58,11 @@ namespace SaveImageToAzureBlobStorageAddin
                 return ConnectionString;
 
             var striped = ConnectionString.Substring(0, ConnectionString.Length - 2);
-            return Encryption.DecryptString(striped, cnstr);
+            var bytes = Convert.FromBase64String(striped);
+            bytes = ProtectedData.Unprotect(bytes, cnstr, DataProtectionScope.LocalMachine);
+            return Encoding.UTF8.GetString(bytes);
+
+            //return Encryption.DecryptString(striped, cnstr);
         }
     }
 }
