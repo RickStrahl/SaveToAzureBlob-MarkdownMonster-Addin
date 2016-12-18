@@ -102,7 +102,7 @@
                 </Button>
 
                 <Label Margin="8,0,0,0">Blob Name:</Label>
-                <TextBox Grid.Column ="1" Name="TextFilename" Text="{Binding BlobFileName}" Width="375" />
+                <TextBox Grid.Column ="1" Name="TextFilename" Text="{Binding BlobFileName, UpdateSourceTrigger=PropertyChanged}" Width="375" />
 
             </ToolBar>
 
