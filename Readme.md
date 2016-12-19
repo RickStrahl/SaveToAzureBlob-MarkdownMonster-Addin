@@ -27,7 +27,7 @@ Otherwise you can use the **Paste Image** button or **Control-V** to paste image
 ### Installation
 Currently add-ins have to be manually installed into Markdown Monster - we'll have an automated registry soon, but for now...
 
- 1. Download the  [SaveImageToAzureBlob-MarkdownMonster-Addin.zip](https://github.com/RickStrahl/SaveToAzureBlob-MarkdownMonster-Addin/raw/master/Build/SaveImageToAzureBlob-MarkdownMonster-Addin.zip) from the `Build` folder
+ 1. Download the  [addin.zip](https://github.com/RickStrahl/SaveToAzureBlob-MarkdownMonster-Addin/blob/master/Build/addin.zip) from the `Build` folder
  1. Right-click the ZIP file, go to properties and Unblock
  1. Unzip and copy all of the contents to **c:\Program Files\Markdown Monster\Addins**, but do not overwrite files if prompted
 
