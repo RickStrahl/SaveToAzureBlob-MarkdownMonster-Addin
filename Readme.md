@@ -32,25 +32,13 @@ Currently add-ins have to be manually installed into Markdown Monster - we'll ha
  1. Unzip and copy all of the contents to **c:\Program Files\Markdown Monster\Addins**, but do not overwrite files if prompted
 
 ### Configuration
-In order to post to Azure you'll need to have a Blob Container pre-configured on your Azure account. Once that's in place for now you need to manually provide the configuration in the following location:
+To configure this addin you need to setup connections to Azure which you can do via the Configuration dialog. You can access this dialog from the dropdown button next to the addin icon, or from the gear icon next to the connections in the main dialog.
 
+Here's what the config dialog looks like.
 
-* Create `%AppData%\Markdown Monster\SaveToAzureBlobStorageAddin.json`
-* Create the following configuration:
+![](SaveImageToAzureConfiguration.png)
 
-```json
-{
-  "ConnectionStrings": [
-    {
-      "Name": "West Wind Weblog Images",
-      "ConnectionString": "DefaultEndpointsProtocol=https;AccountName=westwindblobs;AccountKey=bl12f3sP8RcBJslBepmyj7eyzW/7LpYPN7dDMRm215x4R0ng0+TVlDxWXyqHr3ob4vrLFSPloOh03pezg6WsnQ==",
-      "ContainerName": "westwindblogimages"
-    }
-  ]
-}
-```
-
-You can create multiple connections and the connections will show in the list on the toolbar to choose from. After adding the configuration for your container you will need to restart Markdown Monster.
+You need to specify:
 
 #### Name
 This is the display name for the connection, and what shows in the list.
@@ -58,12 +46,29 @@ This is the display name for the connection, and what shows in the list.
 #### ConnectionString
 This is the actual Azure connection string to connect to your BlobStorage account. You can get the connection string from the portal.
 
-> #### Insecure!
-> Note for now the connection string is not encrypted. Until a UI for configuration is added the string has to be edited manually as plain text in the config file.
-
+**Example:**   
+DefaultEndpointsProtocol=https;AccountName=wwblob;AccountKey=yt0tsCf9scBJlBepmyj7eyzW/7LpYPN7dDMRm215x4R0ng0+TVlDxWXyqHr3ob4vrLFSPloOh03pezg6WsnQ==
 
 #### ContainerName
 This is the name Azure Blob Container that you want to store images to. This container has to exist before you can post images to it.
 
+on:
 
+```json
+{
+  "ConnectionStrings": [
+    {
+      "Name": "West Wind Weblog Images",
+      "ConnectionString": "<encryptedstring>",
+      "ContainerName": "westwindblogimages"
+    },
+    {
+      "Name": "Book Images",
+      "ConnectionString": "<encryptedstring>",
+      "ContainerName": "bookimages"
+    },
+  ]
+}
+```
 
+You can create multiple connections and the connections will show in the list on the toolbar to choose from. After adding the configuration for your container you will need to restart Markdown Monster.
