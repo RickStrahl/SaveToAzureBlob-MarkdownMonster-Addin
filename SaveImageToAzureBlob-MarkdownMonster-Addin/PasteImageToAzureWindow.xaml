@@ -33,7 +33,7 @@
                     <StackPanel Orientation="Horizontal">
                         <fa:FontAwesome Icon="CloudUpload"  Name="FaSaveImage"                                          
                                             FontSize="15"                                                                                        
-                                            FontWeight="Normal" FontFamily="FontAwesome" 
+                                            FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                             Margin="5,2,5,0">
 
                         </fa:FontAwesome>
@@ -47,7 +47,7 @@
                         <fa:FontAwesome Icon="Remove"     
                                             Foreground="Red"
                                             FontSize="15"
-                                            FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
+                                            FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Margin="5,2,5,0" />
                         <TextBlock>Cancel</TextBlock>
                     </StackPanel>
                 </Button>
@@ -60,7 +60,7 @@
                         <fa:FontAwesome Icon="Image"     
                                            
                                             FontSize="15"
-                                            FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
+                                            FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Margin="5,2,5,0" />
                         <TextBlock>Open Image File</TextBlock>
                     </StackPanel>
                 </Button>
@@ -71,7 +71,7 @@
                     <StackPanel Orientation="Horizontal">
                         <fa:FontAwesome Icon="Paste"                                                 
                                             FontSize="15"
-                                            FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
+                                            FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Margin="5,2,5,0" />
                         <TextBlock>Paste Image</TextBlock>
                     </StackPanel>
                 </Button>
@@ -80,7 +80,7 @@
                     <StackPanel Orientation="Horizontal">
                         <fa:FontAwesome Icon="TrashOutline"                                                 
                                             FontSize="15"
-                                            FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
+                                            FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Margin="5,2,5,0" />
                         <TextBlock>Clear Image</TextBlock>
                     </StackPanel>
                 </Button>
@@ -97,7 +97,7 @@
                 <Button Name="ToolButtonConfiguration" Click="ToolButtonConfiguration_Click" ToolTip="Configure connections">
                     <StackPanel Orientation="Horizontal">
                         <fa:FontAwesome Icon="Cog"  Margin="5,2,5,0"
-                                        FontSize="15" FontWeight="Normal" FontFamily="FontAwesome"  />
+                                        FontSize="15" FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  />
                    </StackPanel>
                 </Button>
 
