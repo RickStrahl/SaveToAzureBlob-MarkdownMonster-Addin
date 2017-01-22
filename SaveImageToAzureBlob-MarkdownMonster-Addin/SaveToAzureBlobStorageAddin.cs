@@ -63,7 +63,7 @@ namespace SaveImageToAzureBlobStorageAddin
         {
             base.OnApplicationStart();
 
-            Id = "SaveToAzureBlogStorage";
+            Id = "SaveImageToAzureBlogStorage";
 
             // by passing in the add in you automatically
             // hook up OnExecute/OnExecuteConfiguration/OnCanExecute
