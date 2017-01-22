@@ -1,7 +1,7 @@
 cd "$PSScriptRoot" 
 
 
-$src = "$env:appdata\Markdown Monster\Addins\SaveImageToAzureBlobStorageAddin"
+$src = "$env:appdata\Markdown Monster\Addins\SaveImageToAzureBlobStorage"
 
 "Cleaning up build files..."
 del addin.zip
