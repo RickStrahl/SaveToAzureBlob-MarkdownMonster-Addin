@@ -63,7 +63,7 @@ namespace SaveImageToAzureBlobStorageAddin
         {
             base.OnApplicationStart();
 
-            Id = "SaveImageToAzureBlogStorage";
+            Id = "SaveImageToAzureBlobStorage";
 
             // by passing in the add in you automatically
             // hook up OnExecute/OnExecuteConfiguration/OnCanExecute
@@ -113,6 +113,13 @@ namespace SaveImageToAzureBlobStorageAddin
         }
 
 
+        /// <summary>
+        /// Saves a file from local disk to Azure
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="connectionStringName"></param>
+        /// <param name="blobName"></param>
+        /// <returns></returns>
         public string SaveFileToAzureBlobStorage(string filename, string connectionStringName, string blobName = null)
         {
             if (filename == null || !File.Exists(filename))
