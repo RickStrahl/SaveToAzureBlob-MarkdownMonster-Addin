@@ -7,7 +7,7 @@ using Westwind.Utilities;
 namespace SaveImageToAzureBlobStorageAddin
 {
     public class AzureBlobConnection
-    {        
+    {
 
         /// <summary>
         ///  The unique name for this connection - displayed in UI
@@ -26,9 +26,9 @@ namespace SaveImageToAzureBlobStorageAddin
         public string ContainerName { get; set; }
 
         private readonly byte[] cnstr = new byte[] {45, 66, 222, 12, 87, 88, 32, 97, 113, 179};
-        
+
         public AzureBlobConnection()
-        {            
+        {
         }
 
         public string EncryptConnectionString(bool force = false)
@@ -41,10 +41,9 @@ namespace SaveImageToAzureBlobStorageAddin
                 return ConnectionString;
 
             var encryptBytes = ProtectedData.Protect(Encoding.UTF8.GetBytes(ConnectionString),
-                                                     cnstr, DataProtectionScope.LocalMachine);
+                cnstr, DataProtectionScope.LocalMachine);
             ConnectionString = Convert.ToBase64String(encryptBytes) + "~~";
-                        
-            //Encryption.EncryptString(ConnectionString,cnstr) + "~~";
+
             return ConnectionString;
         }
 
@@ -61,8 +60,6 @@ namespace SaveImageToAzureBlobStorageAddin
             var bytes = Convert.FromBase64String(striped);
             bytes = ProtectedData.Unprotect(bytes, cnstr, DataProtectionScope.LocalMachine);
             return Encoding.UTF8.GetString(bytes);
-
-            //return Encryption.DecryptString(striped, cnstr);
         }
     }
 }
