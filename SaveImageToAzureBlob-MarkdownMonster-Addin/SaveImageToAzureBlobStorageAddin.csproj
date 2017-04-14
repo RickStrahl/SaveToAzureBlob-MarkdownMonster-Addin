@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AzureBlobConnection.cs" />
+    <Compile Include="AzureBlobUploader.cs" />
     <Compile Include="PasteImageToAzureConfigurationWindow.xaml.cs">
       <DependentUpon>PasteImageToAzureConfigurationWindow.xaml</DependentUpon>
     </Compile>

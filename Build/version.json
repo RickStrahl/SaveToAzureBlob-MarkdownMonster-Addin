@@ -4,7 +4,7 @@
   "summary": "Upload images opened from disk or the clipboard to Azure Blob Storage, and embed the resulting URL as an image link into the current document.",
   "description": "This addin allows you copy images from the clipboard, or from files on disk to be uploaded to Azure Blob Storage.\r\nThe addin can open and display images imported or pasted and then pushes the image into the specified Azure Blob storage account. The returned URL is then automatically embedded into the active document as an image url.\r\n\r\nIt's a quick and easy way to store images for a blog or other article in Azure Blob storage.",
   "version": "0.17",
-  "minVersion": "1.2.15",
+  "minVersion": "1.2.22",
   "author": "© Rick Strahl, West Wind Technologies",
   "updated": "2017-4-12T12:00:00Z"
 }
