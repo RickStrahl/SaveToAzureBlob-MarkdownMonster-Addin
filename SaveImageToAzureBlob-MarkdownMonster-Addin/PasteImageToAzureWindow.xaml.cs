@@ -108,18 +108,25 @@ namespace SaveImageToAzureBlobStorageAddin
         {
             if (!Clipboard.ContainsImage())
             {
-                ShowStatus("Clipboard doesn't contain an image...", 6000);
+                ShowStatus("Clipboard doesn't contain an image.", 6000);
+                SetStatusIcon(FontAwesomeIcon.Warning, Colors.Orange);
                 return;
             }
             
             
             ImagePreview.Source = Clipboard.GetImage();
             BlobFileName = Addin.GetBlobFilename();
+            if (string.IsNullOrEmpty(BlobFileName))
+            {
+                ShowStatus("No filename selected.", 6000);
+                SetStatusIcon(FontAwesomeIcon.Warning, Colors.Orange);
+                return;
+            }
             PasteImageToAzureWindow_SizeChanged(this, null);
 
             IsBitmap = true;
 
-            ShowStatus("Image pasted from Clipboard...", 8000);
+            ShowStatus("Image pasted from Clipboard.", 8000);
         }
 
         #region Event Handlers        

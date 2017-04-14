@@ -33,14 +33,12 @@
 
 
 using System;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Windows;
 using System.Windows.Media.Imaging;
 using FontAwesome.WPF;
+using MarkdownMonster;
 using MarkdownMonster.AddIns;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
 using Westwind.Utilities;
 
 namespace SaveImageToAzureBlobStorageAddin
@@ -55,8 +53,6 @@ namespace SaveImageToAzureBlobStorageAddin
     public class SaveToAzureBlobStorageAddin : MarkdownMonsterAddin
     {
         public string ErrorMessage { get; set; }
-
-        
         
 
         public override void OnApplicationStart()
@@ -90,12 +86,9 @@ namespace SaveImageToAzureBlobStorageAddin
 
             if (!string.IsNullOrEmpty(form.ImageUrl))
             {
-                var editor = Model.ActiveEditor;
-                editor.SetSelection("![](" + form.ImageUrl + ")");
-                Model.Window.Activate();                
-                editor.SetEditorFocus();
-
-                Model.Window.PreviewMarkdownAsync(keepScrollPosition: true);
+                SetSelection("![](" + form.ImageUrl + ")");
+                SetEditorFocus();                                
+                RefreshPreview();
             }
         }
     
@@ -114,7 +107,7 @@ namespace SaveImageToAzureBlobStorageAddin
 
 
         /// <summary>
-        /// Saves a file from local disk to Azure
+        /// Saves a file from local disk to Azure Blob storage and a given blob name.
         /// </summary>
         /// <param name="filename"></param>
         /// <param name="connectionStringName"></param>
@@ -122,68 +115,50 @@ namespace SaveImageToAzureBlobStorageAddin
         /// <returns></returns>
         public string SaveFileToAzureBlobStorage(string filename, string connectionStringName, string blobName = null)
         {
-            if (filename == null || !File.Exists(filename))
-            {
-                ErrorMessage = "Invalid file name. No file specified or file doesn't exist.";
-                return null;
-            }
-
             if (string.IsNullOrEmpty(blobName))
                 blobName = GetBlobFilename(filename);
 
-            var blobConnection = AzureConfiguration.Current.ConnectionStrings
-              .FirstOrDefault(cs => cs.Name.ToLower() == connectionStringName.ToLower());
+            if (string.IsNullOrEmpty(blobName))
+                return null;
 
-            if (blobConnection == null)
+            var uploader = new AzureBlobUploader();
+            string url = uploader.SaveFileToAzureBlobStorage(filename, connectionStringName, blobName);
+
+            if (string.IsNullOrEmpty(url))
             {
-                ErrorMessage = "Invalid configuration string.";
+                ErrorMessage = uploader.ErrorMessage;
                 return null;
             }
 
-            try
-            {                
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(blobConnection.DecryptConnectionString());
-
-                // Create the blob client.
-                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-
-                // Retrieve a reference to a container.
-                CloudBlobContainer container = blobClient.GetContainerReference(blobConnection.ContainerName);
-
-                // Create the container if it doesn't already exist.
-                container.CreateIfNotExists();
-
-                container.SetPermissions(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
-
-                bool result = false;
-                using (var fileStream = File.OpenRead(filename))
-                {
-                    result = UploadStream(fileStream, blobName, container);
-                }
-
-                if (!result)
-                    return null;
-
-                var blob = container.GetBlockBlobReference(blobName);
-
-                return blob.Uri.ToString();
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = ex.GetBaseException().Message;
-                return null;                
-            }
+            return url;
         }
+        
 
-        private bool UploadStream(Stream stream, string blobName, CloudBlobContainer container)
+        /// <summary>
+        /// Saves an image directly from the image control - when pasting from clipboard
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="connectionStringName"></param>
+        /// <param name="blobName"></param>
+        /// <returns></returns>
+        public string SaveBitmapSourceToAzureBlobStorage(BitmapSource image, string connectionStringName, string blobName)
         {
-            // Retrieve reference to a blob named "myblob".
-            CloudBlockBlob blockBlob = container.GetBlockBlobReference(blobName);
+            if (string.IsNullOrEmpty(blobName))
+                blobName = GetBlobFilename();
 
-            // Create or overwrite the "myblob" blob with contents from a local file.
-            blockBlob.UploadFromStream(stream);
+            if (string.IsNullOrEmpty(blobName))
+                return null;
 
-            return true;
+            var uploader = new AzureBlobUploader();
+            string url = uploader.SaveBitmapSourceToAzureBlobStorage(image, connectionStringName, blobName);
+
+            if (string.IsNullOrEmpty(url))
+            {
+                ErrorMessage = uploader.ErrorMessage;
+                return null;
+            }
+
+            return url;            
         }
 
         /// <summary>
@@ -204,79 +179,6 @@ namespace SaveImageToAzureBlobStorageAddin
                 file = Path.GetFileName(filename);
 
             return date.Value.ToString("yyyy/MM/dd/") + file;
-        }
-
-
-        public string SaveBitmapSourceToAzureBlobStorage(BitmapSource image,  string connectionStringName, string blobName)
-        {
-
-            var blobConnection = AzureConfiguration.Current.ConnectionStrings
-              .FirstOrDefault(cs => cs.Name.ToLower() == connectionStringName.ToLower());
-
-            if (blobConnection == null)
-            {
-                ErrorMessage = "Invalid configuration string.";
-                return null;
-            }
-
-            try
-            {             
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(blobConnection.DecryptConnectionString());
-                
-
-                // Create the blob client.
-                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-
-                // Retrieve a reference to a container.
-                CloudBlobContainer container = blobClient.GetContainerReference(blobConnection.ContainerName);
-
-                // Create the container if it doesn't already exist.
-                container.CreateIfNotExists();
-
-                container.SetPermissions(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
-
-                // strip leading slashes - Azure will provide the trailing dash
-                // on the domain.
-                if (blobName.StartsWith("/") && blobName.Length > 1)
-                    blobName = blobName.Substring(1);
-
-                var extension = Path.GetExtension(blobName).Replace(".", "").ToLower();
-                BitmapEncoder encoder;
-
-                if (extension == "jpg" || extension == "jpeg")
-                    encoder = new JpegBitmapEncoder();
-                else if (extension == "gif")
-                    encoder = new GifBitmapEncoder();
-                else if (extension == ".bmp")
-                    encoder = new BmpBitmapEncoder();
-                else
-                    encoder = new PngBitmapEncoder();
-
-                encoder.Frames.Add(BitmapFrame.Create(image));
-
-                bool result;
-                using (var ms = new MemoryStream())
-                {
-                    encoder.Save(ms);
-                    ms.Flush();
-                    ms.Position = 0;
-
-                    result = UploadStream(ms, blobName, container);
-                }
-                               
-                if (!result)
-                    return null;
-
-                var blob = container.GetBlockBlobReference(blobName);
-
-                return blob.Uri.ToString();
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = ex.GetBaseException().Message;                
-            }
-
-            return null;
         }
     }
 }
