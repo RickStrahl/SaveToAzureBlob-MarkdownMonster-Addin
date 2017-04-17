@@ -35,6 +35,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows.Media.Imaging;
 using FontAwesome.WPF;
 using MarkdownMonster;
@@ -80,7 +81,7 @@ namespace SaveImageToAzureBlobStorageAddin
         }
 
         public override void OnExecute(object sender)
-        {
+        {          
             var form = new PasteImageToAzureWindow(this);
             form.ShowDialog();
 

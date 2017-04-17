@@ -58,9 +58,7 @@ namespace SaveImageToAzureBlobStorageAddin
             Loaded += PasteImageToAzureConfigurationWindow_Loaded;
             Unloaded += PasteImageToAzureConfigurationWindow_Unloaded;
         }
-
         
-
         private void PasteImageToAzureConfigurationWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Connections = new ObservableCollection<AzureBlobConnection>(AzureConfiguration.Current.ConnectionStrings);
@@ -82,14 +80,6 @@ namespace SaveImageToAzureBlobStorageAddin
 
             // save the configuration when you exit
             AzureConfiguration.Current.Write();
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void TextConnectionString_LostFocus(object sender, RoutedEventArgs e)
@@ -130,5 +120,16 @@ namespace SaveImageToAzureBlobStorageAddin
             }
         }
 
+        #region INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
     }
 }

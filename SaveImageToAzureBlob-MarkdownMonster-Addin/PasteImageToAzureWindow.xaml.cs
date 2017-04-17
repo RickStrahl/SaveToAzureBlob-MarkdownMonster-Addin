@@ -1,10 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
-
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -14,19 +12,30 @@ using MarkdownMonster;
 using Microsoft.Win32;
 
 namespace SaveImageToAzureBlobStorageAddin
-{
-    /// <summary>
-    /// Interaction logic for PasteHref.xaml
-    /// </summary>
+{    
     public partial class PasteImageToAzureWindow : MetroWindow, INotifyPropertyChanged   
     {
         public SaveToAzureBlobStorageAddin Addin { get; set; }
 
         public AzureConfiguration Configuration { get; set; }
 
-        public string ImageUrl { get; set; }  
+
+        public string ImageUrl { get; set; }
+
+
+        public string ImageFilename
+        {
+            get { return _ImageFilename; }
+            set
+            {
+                if (value == _ImageFilename) return;
+                _ImageFilename = value;
+                OnPropertyChanged(nameof(ImageFilename));
+                OnPropertyChanged(nameof(IsSaveEnabled));
+            }
+        }
+        private string _ImageFilename = "";
         
-        public string ImageFilename { get; set; }
 
         public string BlobFileName
         {
@@ -39,7 +48,21 @@ namespace SaveImageToAzureBlobStorageAddin
             }
         }
         private string _blobFileName;
+
+
         
+        public bool IsSaveEnabled
+        {
+            get
+            {
+                bool enabled = IsBitmap || !string.IsNullOrEmpty(ImageFilename);
+                if (enabled)
+                    FaSaveImage.Foreground = Brushes.LightGreen;
+                else
+                    FaSaveImage.Foreground = Brushes.Silver;
+                return enabled;
+            }            
+        }
 
         public bool IsBitmap
         {
@@ -47,11 +70,9 @@ namespace SaveImageToAzureBlobStorageAddin
             set { if (_isBitmap == value) return;
                 _isBitmap = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(IsSaveEnabled));
 
-                if (value)
-                    FaSaveImage.Foreground = Brushes.LightGreen;
-                else
-                    FaSaveImage.Foreground = Brushes.Silver;
+               
             }
         }
         private bool _isBitmap;
@@ -125,11 +146,13 @@ namespace SaveImageToAzureBlobStorageAddin
             PasteImageToAzureWindow_SizeChanged(this, null);
 
             IsBitmap = true;
+            ImageFilename = null;
 
             ShowStatus("Image pasted from Clipboard.", 8000);
         }
 
         #region Event Handlers        
+
         private void ToolButtonOpenImage_Click(object sender, RoutedEventArgs e)
         {
             ImageFilename = null;
@@ -146,7 +169,7 @@ namespace SaveImageToAzureBlobStorageAddin
             };
 
             string markdownFile = Addin.Model.ActiveDocument?.Filename;
-            
+
             if (!string.IsNullOrEmpty(markdownFile))
                 fd.InitialDirectory = System.IO.Path.GetDirectoryName(markdownFile);
             else
@@ -161,14 +184,13 @@ namespace SaveImageToAzureBlobStorageAddin
             if (res == null || !res.Value)
                 return;
 
+            // display in preview control
             ImageFilename = fd.FileName;
             Uri fileUri = new Uri("file:///" + fd.FileName.Replace("\\", "/"));
             ImagePreview.Source = new BitmapImage(fileUri);
             PasteImageToAzureWindow_SizeChanged(this, null);
-
             BlobFileName = Addin.GetBlobFilename(ImageFilename);
-
-            IsBitmap = true;
+            IsBitmap = false;
         }
 
         private void ToolButtonPasteImage_Click(object sender, RoutedEventArgs e)
@@ -187,8 +209,14 @@ namespace SaveImageToAzureBlobStorageAddin
         {
             ImageUrl = null;
 
-            var image = ImagePreview.Source as BitmapSource;            
-            ImageUrl = Addin.SaveBitmapSourceToAzureBlobStorage(image, ActiveConnection.Name, BlobFileName);
+            if (IsBitmap)
+            {
+                var image = ImagePreview.Source as BitmapSource;
+                ImageUrl = Addin.SaveBitmapSourceToAzureBlobStorage(image, ActiveConnection.Name, BlobFileName);
+            }
+            else            
+                ImageUrl = Addin.SaveFileToAzureBlobStorage(ImageFilename, ActiveConnection.Name, BlobFileName);
+            
 
             if (ImageUrl == null)
                 ShowStatus("Image upload failed: " + Addin.ErrorMessage, 8000);
@@ -202,30 +230,6 @@ namespace SaveImageToAzureBlobStorageAddin
             Close();
         }
 
-
-        public void ShowStatus(string message = null, int milliSeconds = 0)
-        {
-            if (message == null)
-                message = "Ready";
-
-            StatusText.Text = message;
-
-            if (milliSeconds > 0)
-            {
-                var t = new Timer(win =>
-                {
-                    var window = win as PasteImageToAzureWindow;
-                    if (window == null)
-                        return;
-
-                    window.Dispatcher.Invoke(() =>
-                    {
-                        window.ShowStatus(null, 0);
-                    });
-                }, this, milliSeconds,Timeout.Infinite);
-                
-            }
-        }
 
         /// <summary>
         /// Status the statusbar icon on the left bottom to some indicator
@@ -255,7 +259,30 @@ namespace SaveImageToAzureBlobStorageAddin
                 PasteImage();
         }
 
-    
+        public void ShowStatus(string message = null, int milliSeconds = 0)
+        {
+            if (message == null)
+                message = "Ready";
+
+            StatusText.Text = message;
+
+            if (milliSeconds > 0)
+            {
+                var t = new Timer(win =>
+                {
+                    var window = win as PasteImageToAzureWindow;
+                    if (window == null)
+                        return;
+
+                    window.Dispatcher.Invoke(() =>
+                    {
+                        window.ShowStatus(null, 0);
+                    });
+                }, this, milliSeconds,Timeout.Infinite);
+                
+            }
+        }
+
         #endregion
 
         #region IPropertyChanged
