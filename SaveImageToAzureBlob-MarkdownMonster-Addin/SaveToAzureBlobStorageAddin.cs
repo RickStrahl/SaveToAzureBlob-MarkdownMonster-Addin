@@ -131,7 +131,8 @@ namespace SaveImageToAzureBlobStorageAddin
                 return null;
             }
 
-            return System.Net.WebUtility.UrlEncode(url);
+            url = url.Replace(" ", "%20");
+            return url;
         }
         
 
@@ -159,7 +160,7 @@ namespace SaveImageToAzureBlobStorageAddin
                 return null;
             }
 
-            return url;            
+            return url.Replace(" ","%20");            
         }
 
         /// <summary>
