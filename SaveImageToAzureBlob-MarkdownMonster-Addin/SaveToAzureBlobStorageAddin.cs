@@ -131,7 +131,7 @@ namespace SaveImageToAzureBlobStorageAddin
                 return null;
             }
 
-            return url;
+            return System.Net.WebUtility.UrlEncode(url);
         }
         
 
