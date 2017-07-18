@@ -42,7 +42,7 @@ namespace SaveImageToAzureBlobStorageAddin
 
             var encryptBytes = ProtectedData.Protect(Encoding.UTF8.GetBytes(ConnectionString),
                 cnstr, DataProtectionScope.LocalMachine);
-            ConnectionString = Convert.ToBase64String(encryptBytes) + "~~";
+            ConnectionString = Convert.ToBase64String(encryptBytes) + postfix;
 
             return ConnectionString;
         }
@@ -53,7 +53,7 @@ namespace SaveImageToAzureBlobStorageAddin
                 return ConnectionString;
 
             string postfix = "~~";
-            if (!ConnectionString.EndsWith("~~"))
+            if (!ConnectionString.EndsWith(postfix))
                 return ConnectionString;
 
             var striped = ConnectionString.Substring(0, ConnectionString.Length - 2);
