@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\Users\rstrahl\AppData\Roaming\Markdown Monster\Addins\SaveImageToAzureBlobStorage\</OutputPath>
+    <OutputPath>$(AppData)\Markdown Monster\Addins\SaveImageToAzureBlobStorage\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,23 +25,23 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\..\Users\rstrahl\AppData\Roaming\Markdown Monster\Addins\SaveImageToAzureBlobStorage\</OutputPath>
+    <OutputPath>$(AppData)\Markdown Monster\Addins\SaveImageToAzureBlobStorage\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FontAwesome.WPF">
-      <HintPath>..\..\..\..\Users\rstrahl\AppData\Local\Markdown Monster\FontAwesome.WPF.dll</HintPath>
+      <HintPath>$(LocalAppData)\Markdown Monster\FontAwesome.WPF.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro">
-      <HintPath>..\..\..\..\Users\rstrahl\AppData\Local\Markdown Monster\MahApps.Metro.dll</HintPath>
+      <HintPath>$(LocalAppData)\Markdown Monster\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\..\Users\rstrahl\AppData\Local\Markdown Monster\NewtonSoft.Json.dll</HintPath>
+      <HintPath>$(LocalAppData)\Markdown Monster\NewtonSoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="MarkdownMonster">
-      <HintPath>..\..\..\..\Users\rstrahl\AppData\Local\Markdown Monster\MarkdownMonster.exe</HintPath>
+      <HintPath>$(LocalAppData)\Markdown Monster\MarkdownMonster.exe</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.KeyVault.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.2.0.4\lib\net45\Microsoft.Azure.KeyVault.Core.dll</HintPath>
@@ -76,7 +76,7 @@
     </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="Westwind.Utilities">
-      <HintPath>..\..\..\..\Users\rstrahl\AppData\Local\Markdown Monster\Westwind.Utilities.dll</HintPath>
+      <HintPath>$(LocalAppData)\Markdown Monster\Westwind.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
