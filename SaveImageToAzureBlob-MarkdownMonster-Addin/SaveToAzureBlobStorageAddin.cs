@@ -62,11 +62,13 @@ namespace SaveImageToAzureBlobStorageAddin
 
             Id = "SaveImageToAzureBlobStorage";
 
+            Name = "Save Image to Azure Blob Storage";
+
             // by passing in the add in you automatically
             // hook up OnExecute/OnExecuteConfiguration/OnCanExecute
             var menuItem = new AddInMenuItem(this)
             {
-                Caption = "Save Image to Azure Blob Storage",
+                Caption = Name,
 
                 // if an icon is specified it shows on the toolbar
                 // if not the add-in only shows in the add-ins menu
