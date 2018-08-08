@@ -14,13 +14,13 @@ md $tgt\Distribution
 copy $src\*.dll $tgt\Distribution
 
 "Removing not needed files..."
-del $tgt\Distribution\Dragablz.dll
-del $tgt\Distribution\FontAwesome.WPF.dll
-del $tgt\Distribution\MarkDig.dll
-del $tgt\Distribution\NHunspell.dll
-del $tgt\Distribution\MahApps.Metro.dll
-del $tgt\Distribution\Westwind.Utilities.dll
-del $tgt\Distribution\System.Windows.Interactivity.dll
+#del $tgt\Distribution\MarkdownMonster.dll
+#del $tgt\Distribution\FontAwesome.WPF.dll
+#del $tgt\Distribution\MarkDig.dll
+#del $tgt\Distribution\NHunspell.dll
+#del $tgt\Distribution\MahApps.Metro.dll
+#del $tgt\Distribution\Westwind.Utilities.dll
+#del $tgt\Distribution\System.Windows.Interactivity.dll
 
 "Updating version..."
 copy $src\version.json $tgt\Distribution
