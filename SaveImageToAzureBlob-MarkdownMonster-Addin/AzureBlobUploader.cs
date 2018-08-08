@@ -8,7 +8,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 namespace SaveImageToAzureBlobStorageAddin
 {
     public class AzureBlobUploader
-    {        
+    {
         public string ErrorMessage { get; set; }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace SaveImageToAzureBlobStorageAddin
 
             var blobConnection = AzureConfiguration.Current.ConnectionStrings
                         .FirstOrDefault(cs => cs.Name.ToLower() == connectionStringName.ToLower());
-            
+
             if (blobConnection == null)
             {
                 ErrorMessage = "Invalid configuration string.";
@@ -165,6 +165,18 @@ namespace SaveImageToAzureBlobStorageAddin
 
             // Create or overwrite the "myblob" blob with contents from a local file.
             blockBlob.UploadFromStream(stream);
+
+            try
+            {
+                // set the content type of the image uploaded to be image/[png,jpg,gif,etc]
+                // This fixes #8
+                blockBlob.Properties.ContentType = $@"image/{Path.GetExtension(blobName).Substring(1)}";
+                blockBlob.SetProperties();
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $@"Error setting content type of the blob. Defaulted to 'application/octet-stream': {ex}";
+            }
 
             return true;
         }
