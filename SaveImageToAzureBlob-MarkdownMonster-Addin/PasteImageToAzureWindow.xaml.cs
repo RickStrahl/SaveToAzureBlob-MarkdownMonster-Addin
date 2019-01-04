@@ -174,8 +174,8 @@ namespace SaveImageToAzureBlobStorageAddin
                 fd.InitialDirectory = System.IO.Path.GetDirectoryName(markdownFile);
             else
             {
-                if (!string.IsNullOrEmpty(mmApp.Configuration.LastImageFolder))
-                    fd.InitialDirectory = mmApp.Configuration.LastImageFolder;
+                if (!string.IsNullOrEmpty(Addin.Model.ActiveDocument?.LastImageFolder))
+                    fd.InitialDirectory = Addin.Model.ActiveDocument.LastImageFolder;
                 else
                     fd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             }
