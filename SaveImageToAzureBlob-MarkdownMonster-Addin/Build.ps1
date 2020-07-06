@@ -25,6 +25,7 @@ copy $src\*.dll $tgt\Distribution
 "Updating version..."
 copy $src\version.json $tgt\Distribution
 copy $src\version.json $tgt\
+copy $src\version.json $tgt\Distribution
 
 "Zipping up setup file..."
 .\7z a -tzip  $tgt\addin.zip $tgt\Distribution\*.*
