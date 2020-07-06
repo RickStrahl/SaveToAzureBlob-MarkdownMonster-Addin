@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows;
@@ -143,10 +144,18 @@ namespace SaveImageToAzureBlobStorageAddin
                 SetStatusIcon(FontAwesomeIcon.Warning, Colors.Orange);
                 return;
             }
+            
             PasteImageToAzureWindow_SizeChanged(this, null);
 
             IsBitmap = true;
             ImageFilename = null;
+
+            // Get just the filename to highlight
+            var justFile = Path.GetFileName(BlobFileName);
+            var start = BlobFileName.Length - justFile.Length;
+
+            TextFilename.Focus();
+            TextFilename.Select(start, justFile.Length - 4);
 
             ShowStatus("Image pasted from Clipboard.", 8000);
         }
@@ -203,6 +212,7 @@ namespace SaveImageToAzureBlobStorageAddin
             ImageUrl = null;
             IsBitmap = false;
             ImagePreview.Source = null;
+            BlobFileName = null;
         }
         
         private void ToolButtonSaveToAzure_Click(object sender, RoutedEventArgs e)
