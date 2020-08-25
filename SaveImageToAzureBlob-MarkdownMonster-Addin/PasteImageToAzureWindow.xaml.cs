@@ -120,7 +120,7 @@ namespace SaveImageToAzureBlobStorageAddin
 
         private void PasteImageToAzure_Loaded(object sender, RoutedEventArgs e)
         {
-            if (Clipboard.ContainsImage())
+            if (ClipboardHelper.ContainsImage())
                 ToolButtonPasteImage_Click(this, null);
         }
         #endregion
@@ -128,7 +128,7 @@ namespace SaveImageToAzureBlobStorageAddin
 
         public void PasteImage()
         {
-            if (!Clipboard.ContainsImage())
+            if (!ClipboardHelper.ContainsImage())
             {
                 ShowStatus("Clipboard doesn't contain an image.", 6000);
                 SetStatusIcon(FontAwesomeIcon.Warning, Colors.Orange);
@@ -136,7 +136,7 @@ namespace SaveImageToAzureBlobStorageAddin
             }
             
             
-            ImagePreview.Source = Clipboard.GetImage();
+            ImagePreview.Source = ClipboardHelper.GetImageSource();
             BlobFileName = Addin.GetBlobFilename();
             if (string.IsNullOrEmpty(BlobFileName))
             {
@@ -265,7 +265,7 @@ namespace SaveImageToAzureBlobStorageAddin
 
         private void PasteImageToAzureForm_Activated(object sender, EventArgs e)
         {
-            if (ImagePreview.Source == null && Clipboard.ContainsImage())
+            if (ImagePreview.Source == null && ClipboardHelper.ContainsImage())
                 PasteImage();
         }
 

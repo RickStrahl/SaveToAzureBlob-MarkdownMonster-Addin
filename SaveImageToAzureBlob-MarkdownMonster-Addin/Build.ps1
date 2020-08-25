@@ -5,9 +5,11 @@ $src = "$env:appdata\Markdown Monster\Addins\SaveImageToAzureBlobStorage"
 $tgt = "..\build"
 
 "Cleaning up build files..."
-del $tgt\addin.zip
+if(Test-Path $tgt -PathType Container) {
 
-remove-item -recurse -force $tgt\Distribution
+   del $tgt\addin.zip
+   remove-item -recurse -force $tgt\Distribution
+}
 md $tgt\Distribution
 
 "Copying files..."
