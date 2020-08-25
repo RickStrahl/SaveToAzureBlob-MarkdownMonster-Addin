@@ -68,12 +68,14 @@ namespace SaveImageToAzureBlobStorageAddin
             // hook up OnExecute/OnExecuteConfiguration/OnCanExecute
             var menuItem = new AddInMenuItem(this)
             {
-                Caption = Name,
+                Caption = "Save Image to Azure _Blob Storage",
 
                 // if an icon is specified it shows on the toolbar
                 // if not the add-in only shows in the add-ins menu
                 FontawesomeIcon = FontAwesomeIcon.CloudUpload,
+                FontawesomeIconColor = "Steelblue"
             };
+            menuItem.KeyboardShortcut = "Shift-Alt-B";
 
             // if you don't want to display main or config menu items clear handler
             //menuItem.ExecuteConfiguration = null;
