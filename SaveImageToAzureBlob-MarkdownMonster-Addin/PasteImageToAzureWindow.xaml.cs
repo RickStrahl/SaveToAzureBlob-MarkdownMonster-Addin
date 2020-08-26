@@ -135,8 +135,8 @@ namespace SaveImageToAzureBlobStorageAddin
                 return;
             }
             
-            
             ImagePreview.Source = ClipboardHelper.GetImageSource();
+
             BlobFileName = Addin.GetBlobFilename();
             if (string.IsNullOrEmpty(BlobFileName))
             {

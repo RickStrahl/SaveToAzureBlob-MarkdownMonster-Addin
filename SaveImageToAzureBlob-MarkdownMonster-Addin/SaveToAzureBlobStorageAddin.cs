@@ -155,6 +155,7 @@ namespace SaveImageToAzureBlobStorageAddin
             if (string.IsNullOrEmpty(blobName))
                 return null;
 
+
             var uploader = new AzureBlobUploader();
             string url = uploader.SaveBitmapSourceToAzureBlobStorage(image, connectionStringName, blobName);
 
