@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "SaveImageToAzureBlobStorageAddin": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\rstrahl\\AppData\\Local\\Markdown Monster\\MarkdownMonster.exe",
+      "workingDirectory": "C:\\Users\\rstrahl\\AppData\\Local\\Markdown Monster"
+    }
+  }
+}
