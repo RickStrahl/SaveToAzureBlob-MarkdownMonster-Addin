@@ -36,6 +36,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using FontAwesome.WPF;
 using MarkdownMonster;
@@ -56,7 +57,7 @@ namespace SaveImageToAzureBlobStorageAddin
         public string ErrorMessage { get; set; }
         
 
-        public override void OnApplicationStart()
+        public override Task OnApplicationStart()
         {
             base.OnApplicationStart();
 
@@ -81,10 +82,12 @@ namespace SaveImageToAzureBlobStorageAddin
             //menuItem.ExecuteConfiguration = null;
 
             // Must add the menu to the collection to display menu and toolbar items            
-            MenuItems.Add(menuItem);            
+            MenuItems.Add(menuItem);
+
+            return Task.CompletedTask;
         }
 
-        public override void OnExecute(object sender)
+        public override Task OnExecute(object sender)
         {          
             var form = new PasteImageToAzureWindow(this);
             form.ShowDialog();
@@ -95,14 +98,18 @@ namespace SaveImageToAzureBlobStorageAddin
                 SetEditorFocus();                                
                 RefreshPreview();
             }
+
+            return Task.CompletedTask;
         }
     
 
-        public override void OnExecuteConfiguration(object sender)
+        public override Task OnExecuteConfiguration(object sender)
         {
             var form = new PasteImageToAzureConfigurationWindow(this);
             form.Owner = Model.Window;
             form.Show();
+
+            return Task.CompletedTask;
         }
 
         public override bool OnCanExecute(object sender)
