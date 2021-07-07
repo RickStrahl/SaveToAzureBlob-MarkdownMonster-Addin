@@ -57,7 +57,7 @@ namespace SaveImageToAzureBlobStorageAddin
         public string ErrorMessage { get; set; }
         
 
-        public override Task OnApplicationStart()
+        public override void OnApplicationStart()
         {
             base.OnApplicationStart();
 
@@ -83,11 +83,10 @@ namespace SaveImageToAzureBlobStorageAddin
 
             // Must add the menu to the collection to display menu and toolbar items            
             MenuItems.Add(menuItem);
-
-            return Task.CompletedTask;
+            
         }
 
-        public override Task OnExecute(object sender)
+        public override void OnExecute(object sender)
         {          
             var form = new PasteImageToAzureWindow(this);
             form.ShowDialog();
@@ -98,18 +97,14 @@ namespace SaveImageToAzureBlobStorageAddin
                 SetEditorFocus();                                
                 RefreshPreview();
             }
-
-            return Task.CompletedTask;
         }
     
 
-        public override Task OnExecuteConfiguration(object sender)
+        public override void OnExecuteConfiguration(object sender)
         {
             var form = new PasteImageToAzureConfigurationWindow(this);
             form.Owner = Model.Window;
             form.Show();
-
-            return Task.CompletedTask;
         }
 
         public override bool OnCanExecute(object sender)
