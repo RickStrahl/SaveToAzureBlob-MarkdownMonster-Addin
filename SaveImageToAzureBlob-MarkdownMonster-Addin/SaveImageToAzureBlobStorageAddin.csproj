@@ -34,8 +34,9 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net472'">
-    <Reference Include="$(LocalAppData)\Markdown Monster\MarkdownMonster.exe">
-      <Private>false</Private>
+    <!--<Reference Include="$(LocalAppData)\Markdown Monster\MarkdownMonster.exe">-->
+	  <Reference Include="C:\projects\MarkdownMonsterCode1.0\MarkdownMonster\bin\Release\net472\win-x86\MarkdownMonster.exe">
+			<Private>false</Private>
     </Reference>
   </ItemGroup>
 
