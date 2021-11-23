@@ -55,8 +55,8 @@ namespace SaveImageToAzureBlobStorageAddin
     public class SaveToAzureBlobStorageAddin : MarkdownMonsterAddin
     {
         public string ErrorMessage { get; set; }
-        
 
+                
         public override Task OnApplicationStart()
         {
             base.OnApplicationStart();
