@@ -21,7 +21,7 @@ namespace SaveImageToAzureBlobStorageAddin
     /// </summary>
     public class AzureConfiguration : BaseAddinConfiguration<AzureConfiguration>
     {
-        public List<AzureBlobConnection> ConnectionStrings { get; set; }
+        public List<AzureBlobConnection> ConnectionStrings { get; set; } 
 
         static AzureConfiguration()
         {

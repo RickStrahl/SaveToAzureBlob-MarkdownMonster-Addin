@@ -27,7 +27,12 @@ namespace SaveImageToAzureBlobStorageAddin
 
         public AzureBlobConnection ActiveConnection
         {
-            get { return _activeConnection; }
+            get
+            {
+                if (_activeConnection == null)
+                    _activeConnection = new AzureBlobConnection();
+                return _activeConnection;
+            }
             set
             {
                 if (Equals(value, _activeConnection)) return;
@@ -84,6 +89,9 @@ namespace SaveImageToAzureBlobStorageAddin
 
         private void TextConnectionString_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (ActiveConnection == null)
+                return;
+
             string val = TextConnectionString.Text;
             TextConnectionString.Text = "<hiden for security - type to change>";
 
