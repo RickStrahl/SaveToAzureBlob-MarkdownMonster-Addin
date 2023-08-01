@@ -3,7 +3,6 @@
   <PropertyGroup>
     <Version>0.9.8</Version>
     <TargetFramework>net70-windows</TargetFramework>
-    <!--<TargetFrameworks>net472;netcoreapp3.0</TargetFrameworks>-->
     <UseWPF>true</UseWPF>
     <Authors>Rick Strahl, West Wind Technologies</Authors>
     <Product>Markdown Monster Save Image To Azure Blob Storage Addin</Product>
@@ -17,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+      <!-- Force Assets to be output  -->
 	  <PackageReference Include="Azure.Identity" Version="1.9.0" IncludeAssets="all" />
 	  <PackageReference Include="Azure.Storage.Blobs" Version="12.17.0" IncludeAssets="all" />
 
@@ -31,8 +31,6 @@
 	    <Private>false</Private>
     </Reference>
   </ItemGroup>
-
-
 
   <ItemGroup>
     <Resource Include="Assets\SaveImageToAzureBlobAddin.png" />

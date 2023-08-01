@@ -27,6 +27,13 @@ namespace SaveImageToAzureBlobStorageAddin
 
         private readonly byte[] cnstr = new byte[] {45, 66, 222, 12, 87, 88, 32, 97, 113, 179};
 
+
+        /// <summary>
+        /// Url to the Azure Blob Storage Container root folder so
+        /// you can quickly browse the container contents
+        /// </summary>
+        public string BlobStorageAzureUrl { get; set; }
+
         public AzureBlobConnection()
         {
         }
