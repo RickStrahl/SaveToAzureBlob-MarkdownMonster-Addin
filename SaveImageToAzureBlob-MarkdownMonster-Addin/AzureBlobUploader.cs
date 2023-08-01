@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
+using Azure.Storage.Blobs;
 
 namespace SaveImageToAzureBlobStorageAddin
 {
@@ -18,7 +18,7 @@ namespace SaveImageToAzureBlobStorageAddin
         /// <param name="connectionStringName"></param>
         /// <param name="blobName"></param>
         /// <returns></returns>
-        public string SaveFileToAzureBlobStorage(string filename, string connectionStringName, string blobName = null)
+        public async Task<string> SaveFileToAzureBlobStorage(string filename, string connectionStringName, string blobName = null)
         {
             if (filename == null || !File.Exists(filename))
             {
@@ -37,29 +37,15 @@ namespace SaveImageToAzureBlobStorageAddin
 
             try
             {
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(blobConnection.DecryptConnectionString());
+                // Get a reference to a container named "sample-container" and then create it
+                BlobContainerClient container = new BlobContainerClient(blobConnection.DecryptConnectionString(), blobConnection.ContainerName);
+                await container.CreateIfNotExistsAsync();
 
-                // Create the blob client.
-                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                // Get a reference to a blob named "sample-file" in a container named "sample-container"
+                BlobClient blob = container.GetBlobClient(blobName);
 
-                // Retrieve a reference to a container.
-                CloudBlobContainer container = blobClient.GetContainerReference(blobConnection.ContainerName);
-
-                // Create the container if it doesn't already exist.
-                container.CreateIfNotExists();
-
-                container.SetPermissions(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
-
-                bool result = false;
-                using (var fileStream = File.OpenRead(filename))
-                {
-                    result = UploadStream(fileStream, blobName, container);
-                }
-
-                if (!result)
-                    return null;
-
-                var blob = container.GetBlockBlobReference(blobName);
+                // Upload local file
+                var response =  await blob.UploadAsync(filename);
 
                 return blob.Uri.ToString();
             }
@@ -79,7 +65,7 @@ namespace SaveImageToAzureBlobStorageAddin
         /// <param name="connectionStringName"></param>
         /// <param name="blobName"></param>
         /// <returns></returns>
-        public string SaveBitmapSourceToAzureBlobStorage(BitmapSource image, string connectionStringName, string blobName)
+        public async Task<string> SaveBitmapSourceToAzureBlobStorage(BitmapSource image, string connectionStringName, string blobName)
         {
 
             var blobConnection = AzureConfiguration.Current.ConnectionStrings
@@ -93,19 +79,15 @@ namespace SaveImageToAzureBlobStorageAddin
 
             try
             {
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(blobConnection.DecryptConnectionString());
 
+                // Get a reference to a container named "sample-container" and then create it
+                BlobContainerClient container = new BlobContainerClient(blobConnection.DecryptConnectionString(), blobConnection.ContainerName);
+                await container.CreateIfNotExistsAsync();
 
-                // Create the blob client.
-                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                
+                // Get a reference to a blob named "sample-file" in a container named "sample-container"
+                BlobClient blob = container.GetBlobClient(blobName);
 
-                // Retrieve a reference to a container.
-                CloudBlobContainer container = blobClient.GetContainerReference(blobConnection.ContainerName);
-
-                // Create the container if it doesn't already exist.
-                container.CreateIfNotExists();
-
-                container.SetPermissions(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
 
                 // strip leading slashes - Azure will provide the trailing dash
                 // on the domain.
@@ -127,21 +109,16 @@ namespace SaveImageToAzureBlobStorageAddin
                 encoder.Frames.Add(BitmapFrame.Create(image));
 
                 bool result;
-                using (var ms = new MemoryStream())
+                MemoryStream ms = new MemoryStream();
+                using (ms)
                 {
                     encoder.Save(ms);
                     ms.Flush();
-                    ms.Position = 0;
-
-                    result = UploadStream(ms, blobName, container);
+                    ms.Position = 0; 
+                    
+                    var response = await blob.UploadAsync(ms);
+                    return blob.Uri.ToString();
                 }
-
-                if (!result)
-                    return null;
-
-                var blob = container.GetBlockBlobReference(blobName);
-
-                return blob.Uri.ToString();
             }
             catch (Exception ex)
             {
@@ -149,36 +126,6 @@ namespace SaveImageToAzureBlobStorageAddin
             }
 
             return null;
-        }
-
-        /// <summary>
-        /// Uploads actual stream to Azure
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <param name="blobName"></param>
-        /// <param name="container"></param>
-        /// <returns></returns>
-        private bool UploadStream(Stream stream, string blobName, CloudBlobContainer container)
-        {
-            // Retrieve reference to a blob named "myblob".
-            CloudBlockBlob blockBlob = container.GetBlockBlobReference(blobName);
-
-            // Create or overwrite the "myblob" blob with contents from a local file.
-            blockBlob.UploadFromStream(stream);
-
-            try
-            {
-                // set the content type of the image uploaded to be image/[png,jpg,gif,etc]
-                // This fixes #8
-                blockBlob.Properties.ContentType = $@"image/{Path.GetExtension(blobName).Substring(1)}";
-                blockBlob.SetProperties();
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = $@"Error setting content type of the blob. Defaulted to 'application/octet-stream': {ex}";
-            }
-
-            return true;
         }
     }
 }

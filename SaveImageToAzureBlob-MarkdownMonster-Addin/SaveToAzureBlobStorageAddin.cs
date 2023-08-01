@@ -33,13 +33,10 @@
 
 
 using System;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using FontAwesome.WPF;
-using MarkdownMonster;
+using FontAwesome6;
 using MarkdownMonster.AddIns;
 using Westwind.Utilities;
 
@@ -73,7 +70,7 @@ namespace SaveImageToAzureBlobStorageAddin
 
                 // if an icon is specified it shows on the toolbar
                 // if not the add-in only shows in the add-ins menu
-                FontawesomeIcon = FontAwesomeIcon.CloudUpload,
+                FontawesomeIcon = EFontAwesomeIcon.Solid_CloudArrowUp,
                 FontawesomeIconColor = "Steelblue"
             };
             menuItem.KeyboardShortcut = "Shift-Alt-B";
@@ -125,7 +122,7 @@ namespace SaveImageToAzureBlobStorageAddin
         /// <param name="connectionStringName"></param>
         /// <param name="blobName"></param>
         /// <returns></returns>
-        public string SaveFileToAzureBlobStorage(string filename, string connectionStringName, string blobName = null)
+        public async Task<string> SaveFileToAzureBlobStorage(string filename, string connectionStringName, string blobName = null)
         {
             if (string.IsNullOrEmpty(blobName))
                 blobName = GetBlobFilename(filename);
@@ -134,7 +131,7 @@ namespace SaveImageToAzureBlobStorageAddin
                 return null;
 
             var uploader = new AzureBlobUploader();
-            string url = uploader.SaveFileToAzureBlobStorage(filename, connectionStringName, blobName);
+            string url = await uploader.SaveFileToAzureBlobStorage(filename, connectionStringName, blobName);
 
             if (string.IsNullOrEmpty(url))
             {
@@ -154,7 +151,7 @@ namespace SaveImageToAzureBlobStorageAddin
         /// <param name="connectionStringName"></param>
         /// <param name="blobName"></param>
         /// <returns></returns>
-        public string SaveBitmapSourceToAzureBlobStorage(BitmapSource image, string connectionStringName, string blobName)
+        public async Task<string> SaveBitmapSourceToAzureBlobStorage(BitmapSource image, string connectionStringName, string blobName)
         {
             if (string.IsNullOrEmpty(blobName))
                 blobName = GetBlobFilename();
@@ -164,7 +161,7 @@ namespace SaveImageToAzureBlobStorageAddin
 
 
             var uploader = new AzureBlobUploader();
-            string url = uploader.SaveBitmapSourceToAzureBlobStorage(image, connectionStringName, blobName);
+            string url = await uploader.SaveBitmapSourceToAzureBlobStorage(image, connectionStringName, blobName);
 
             if (string.IsNullOrEmpty(url))
             {

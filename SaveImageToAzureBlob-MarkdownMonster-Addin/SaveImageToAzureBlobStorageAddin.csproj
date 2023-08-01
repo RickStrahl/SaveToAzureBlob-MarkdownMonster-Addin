@@ -1,15 +1,15 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>0.9.7</Version>
-    <TargetFramework>net472</TargetFramework>
+    <Version>0.9.8</Version>
+    <TargetFramework>net70-windows</TargetFramework>
     <!--<TargetFrameworks>net472;netcoreapp3.0</TargetFrameworks>-->
-    <AssemblyName>SaveImageToAzureBlobStorageAddin</AssemblyName>
     <UseWPF>true</UseWPF>
     <Authors>Rick Strahl, West Wind Technologies</Authors>
     <Product>Markdown Monster Save Image To Azure Blob Storage Addin</Product>
     <Description>Lets you save images to Azure blob storage and link to the resulting image resource.</Description>
     <OutDir>$(AppData)\Markdown Monster\Addins\SaveImageToAzureBlobStorage</OutDir>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,32 +17,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MahApps.Metro" Version="2.4.9">
-      <IncludeAssets>compile</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Westwind.Utilities" Version="3.1.12">
-      <IncludeAssets>compile</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9">
-      <IncludeAssets>compile</IncludeAssets>
-    </PackageReference>
-	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1">
-		  <IncludeAssets>compile</IncludeAssets>
-	  </PackageReference>
-	  <PackageReference Include="Microsoft.Azure.KeyVault.Core" Version="3.0.5" />
-	  <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
-  </ItemGroup>
+	  <PackageReference Include="Azure.Identity" Version="1.9.0" IncludeAssets="all" />
+	  <PackageReference Include="Azure.Storage.Blobs" Version="12.17.0" IncludeAssets="all" />
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net472'">
-    <Reference Include="$(LocalAppData)\Markdown Monster\MarkdownMonster.exe">
-      <Private>false</Private>
-    </Reference>
+	  <PackageReference Include="FontAwesome6.Pro.Fonts" Version="2.5.1" IncludeAssets="compile"/>
+	  <PackageReference Include="MahApps.Metro" Version="2.4.10" IncludeAssets="compile" />
+	  <PackageReference Include="Westwind.Utilities" Version="4.0.3" IncludeAssets="compile" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Security" />
+    <Reference Include="$(LocalAppData)\Markdown Monster\MarkdownMonster.dll">
+		<IncludeAssets>Compile</IncludeAssets>
+	    <Private>false</Private>
+    </Reference>
   </ItemGroup>
+
 
 
   <ItemGroup>
@@ -58,9 +47,6 @@
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
     <DefineConstants>NETCORE</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net472'">
-    <DefineConstants>NETFULL</DefineConstants>
   </PropertyGroup>
 </Project>
 

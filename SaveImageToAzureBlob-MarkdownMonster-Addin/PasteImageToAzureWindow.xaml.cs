@@ -2,14 +2,13 @@
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using FontAwesome.WPF;
 using MahApps.Metro.Controls;
 using MarkdownMonster;
+using MarkdownMonster.Windows;
 using Microsoft.Win32;
 
 namespace SaveImageToAzureBlobStorageAddin
@@ -23,6 +22,8 @@ namespace SaveImageToAzureBlobStorageAddin
 
         public string ImageUrl { get; set; }
 
+        StatusBarHelper Status { get; set; }
+        
 
         public string ImageFilename
         {
@@ -97,6 +98,8 @@ namespace SaveImageToAzureBlobStorageAddin
             DataContext = this;
             mmApp.SetThemeWindowOverride(this);
 
+            Status = new StatusBarHelper(StatusText, StatusIcon);
+
             Loaded += PasteImageToAzure_Loaded;
             SizeChanged += PasteImageToAzureWindow_SizeChanged;        
         }
@@ -130,8 +133,7 @@ namespace SaveImageToAzureBlobStorageAddin
         {
             if (!ClipboardHelper.ContainsImage())
             {
-                ShowStatus("Clipboard doesn't contain an image.", 6000);
-                SetStatusIcon(FontAwesomeIcon.Warning, Colors.Orange);
+                Status.ShowStatusError("Clipboard doesn't contain an image.", 6000);
                 return;
             }
             
@@ -140,8 +142,7 @@ namespace SaveImageToAzureBlobStorageAddin
             BlobFileName = Addin.GetBlobFilename();
             if (string.IsNullOrEmpty(BlobFileName))
             {
-                ShowStatus("No filename selected.", 6000);
-                SetStatusIcon(FontAwesomeIcon.Warning, Colors.Orange);
+                Status.ShowStatusError("No filename selected.", 6000);
                 return;
             }
             
@@ -157,8 +158,9 @@ namespace SaveImageToAzureBlobStorageAddin
             TextFilename.Focus();
             TextFilename.Select(start, justFile.Length - 4);
 
-            ShowStatus("Image pasted from Clipboard.", 8000);
+            Status.ShowStatusSuccess("Image pasted from Clipboard.", 8000);
         }
+
 
         #region Event Handlers        
 
@@ -215,21 +217,21 @@ namespace SaveImageToAzureBlobStorageAddin
             BlobFileName = null;
         }
         
-        private void ToolButtonSaveToAzure_Click(object sender, RoutedEventArgs e)
+        private async void ToolButtonSaveToAzure_Click(object sender, RoutedEventArgs e)
         {
             ImageUrl = null;
 
             if (IsBitmap)
             {
                 var image = ImagePreview.Source as BitmapSource;
-                ImageUrl = Addin.SaveBitmapSourceToAzureBlobStorage(image, ActiveConnection.Name, BlobFileName);
+                ImageUrl = await Addin.SaveBitmapSourceToAzureBlobStorage(image, ActiveConnection.Name, BlobFileName);
             }
             else            
-                ImageUrl = Addin.SaveFileToAzureBlobStorage(ImageFilename, ActiveConnection.Name, BlobFileName);
+                ImageUrl = await Addin.SaveFileToAzureBlobStorage(ImageFilename, ActiveConnection.Name, BlobFileName);
             
 
             if (ImageUrl == null)
-                ShowStatus("Image upload failed: " + Addin.ErrorMessage, 8000);
+                Status.ShowStatusError("Image upload failed: " + Addin.ErrorMessage, 8000);
             else
                 Close();
         }
@@ -241,25 +243,10 @@ namespace SaveImageToAzureBlobStorageAddin
         }
 
 
-        /// <summary>
-        /// Status the statusbar icon on the left bottom to some indicator
-        /// </summary>
-        /// <param name="icon"></param>
-        /// <param name="color"></param>
-        /// <param name="spin"></param>
-        public void SetStatusIcon(FontAwesomeIcon icon, Color color, bool spin = false)
-        {
-            StatusIcon.Icon = icon;
-            StatusIcon.Foreground = new SolidColorBrush(color);
-            if (spin)
-                StatusIcon.SpinDuration = 30;
-            StatusIcon.Spin = spin;
-        }
-
         private void PasteImageToAzureForm_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == Key.V &&
-                (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control )
+                (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
                 PasteImage();
         }
 
@@ -267,30 +254,6 @@ namespace SaveImageToAzureBlobStorageAddin
         {
             if (ImagePreview.Source == null && ClipboardHelper.ContainsImage())
                 PasteImage();
-        }
-
-        public void ShowStatus(string message = null, int milliSeconds = 0)
-        {
-            if (message == null)
-                message = "Ready";
-
-            StatusText.Text = message;
-
-            if (milliSeconds > 0)
-            {
-                var t = new Timer(win =>
-                {
-                    var window = win as PasteImageToAzureWindow;
-                    if (window == null)
-                        return;
-
-                    window.Dispatcher.Invoke(() =>
-                    {
-                        window.ShowStatus(null, 0);
-                    });
-                }, this, milliSeconds,Timeout.Infinite);
-                
-            }
         }
 
         #endregion
