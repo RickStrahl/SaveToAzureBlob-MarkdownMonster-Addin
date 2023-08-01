@@ -85,6 +85,19 @@
                     </StackPanel>
                 </Button>
 
+                <Separator/>
+
+                <Button Name="ToolButtonGoToAzure" Click="ToolButtonOpenOnAzure_Click" >
+                    <StackPanel Orientation="Horizontal">
+                        <fa6:FontAwesome Icon="Regular_SquareArrowUpRight"                                                 
+                                         FontSize="15"
+                                         Foreground="SteelBlue"
+                                         FontWeight="Normal" Margin="5,2,5,0" />
+                        <TextBlock>Open Storage Container</TextBlock>
+                    </StackPanel>
+                </Button>
+
+
             </ToolBar>
             <ToolBar FontWeight="Normal" FontSize="14" Padding="0,8,0,5"  ClipToBounds="True">
                 <Label>Connection:</Label>
@@ -125,7 +138,7 @@
                 </ItemsPanelTemplate>
             </StatusBar.ItemsPanel>
             <StatusBarItem Grid.Column="0" Margin="2,1,0,0">
-                <fa6:ImageAwesome Name="StatusIcon" Icon="Solid_Circle" Foreground="ForestGreen" Height="13"/>
+                <fa6:ImageAwesome Name="StatusIcon" Icon="Solid_Circle" PrimaryColor="ForestGreen" Height="13"/>
             </StatusBarItem>
             <StatusBarItem Grid.Column="1">
                 <TextBlock  Name="StatusText" x:FieldModifier="public" HorizontalAlignment="Left">Ready</TextBlock>

@@ -12,7 +12,7 @@
         WindowStyle="SingleBorderWindow"       
         WindowStartupLocation="CenterOwner"         
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="800" Height="463.564" MinWidth="800" MinHeight="500" >
+        Width="800" Height="540" MinWidth="800" MinHeight="500" >
 
     <Grid Name="PageGrid">
         <Grid.RowDefinitions>
@@ -47,6 +47,11 @@
 
             <Label Margin="0,10,0,0" FontSize="15">Blob Container Name</Label>
             <TextBox x:Name="TextContainerName" Text="{Binding Path=ActiveConnection.ContainerName}" FontSize="15"/>
+
+            <Label Margin="0,10,0,0" FontSize="15">Azure Portal Container Url  (optional)</Label>
+            <TextBox x:Name="TextContainerUrl"
+                     ToolTip="Optional Url that can be used to open the Blob Container in the Azure Portal"
+                     Text="{Binding Path=ActiveConnection.AzurePortalContainerUrl}" FontSize="15"/>
 
         </StackPanel>
         

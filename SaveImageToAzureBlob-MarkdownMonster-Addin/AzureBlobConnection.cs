@@ -32,7 +32,7 @@ namespace SaveImageToAzureBlobStorageAddin
         /// Url to the Azure Blob Storage Container root folder so
         /// you can quickly browse the container contents
         /// </summary>
-        public string BlobStorageAzureUrl { get; set; }
+        public string AzurePortalContainerUrl { get; set; }
 
         public AzureBlobConnection()
         {

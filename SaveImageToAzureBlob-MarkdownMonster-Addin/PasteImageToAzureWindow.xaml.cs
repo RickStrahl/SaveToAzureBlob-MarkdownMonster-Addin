@@ -10,6 +10,7 @@ using MahApps.Metro.Controls;
 using MarkdownMonster;
 using MarkdownMonster.Windows;
 using Microsoft.Win32;
+using Westwind.Utilities;
 
 namespace SaveImageToAzureBlobStorageAddin
 {    
@@ -275,6 +276,16 @@ namespace SaveImageToAzureBlobStorageAddin
             var form = new PasteImageToAzureConfigurationWindow(Addin);
             form.Owner = this;
             form.Show();
+        }
+
+        private void ToolButtonOpenOnAzure_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(ActiveConnection.AzurePortalContainerUrl))
+                ShellUtils.GoUrl(ActiveConnection.AzurePortalContainerUrl);
+            else
+            {
+                Status.ShowStatusError("The Azure Portal Container Url is not set.");
+            }
         }
     }
 }
