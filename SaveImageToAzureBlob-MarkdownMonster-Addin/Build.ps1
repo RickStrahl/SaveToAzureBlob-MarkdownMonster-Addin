@@ -1,7 +1,7 @@
 cd "$PSScriptRoot" 
 
 
-$src = "$env:appdata\Markdown Monster\Addins\SaveImageToAzureBlobStorage"
+$src = "$env:UserProfile\DropBox\Markdown Monster\Addins\SaveImageToAzureBlobStorage"
 $tgt = "..\build"
 
 "Cleaning up build files..."
